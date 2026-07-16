@@ -52,11 +52,20 @@ try { docker rm   renderlock-workspace 2>&1 | Out-Null } catch { }
 Get-Process -Name "cloudflared" -ErrorAction SilentlyContinue | Stop-Process -Force
 Write-Ok "Clean slate ready"
 
-# ── 4. Build workspace image ─────────────────────────────────────
-Write-Step "Building workspace container image..."
+# ── 4. Build / pull workspace image ─────────────────────────────
+Write-Step "Building/pulling workspace container image..."
 $scriptDir = $PSScriptRoot
-docker build -t renderlock-workspace:latest $scriptDir -q
-Write-Ok "Image built"
+if (-Not $scriptDir) { $scriptDir = "." }
+
+if (Test-Path "$scriptDir\Dockerfile") {
+    docker build -t renderlock-workspace:latest $scriptDir -q
+    Write-Ok "Image built locally"
+} else {
+    Write-Host "   Downloading pre-built image..." -ForegroundColor Gray
+    docker pull wettyoss/wetty:latest 2>&1 | Out-Null
+    docker tag wettyoss/wetty:latest renderlock-workspace:latest
+    Write-Ok "Image downloaded"
+}
 
 # ── 5. Start workspace container ─────────────────────────────────
 Write-Step "Starting web terminal container (port 7681)..."
@@ -75,7 +84,6 @@ Write-Host "   (no Cloudflare account required)" -ForegroundColor Gray
 $tunnelLog = [System.IO.Path]::GetTempFileName()
 $cfProcess = Start-Process -FilePath $cfPath `
     -ArgumentList "tunnel --url http://localhost:7681 --no-autoupdate" `
-    -RedirectStandardOutput $tunnelLog `
     -RedirectStandardError $tunnelLog `
     -WindowStyle Hidden -PassThru
 
