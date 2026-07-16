@@ -8,8 +8,8 @@
 $ErrorActionPreference = "Stop"
 
 function Write-Step  { param($msg) Write-Host "▶ $msg" -ForegroundColor Cyan }
-function Write-Ok    { param($msg) Write-Host "✅ $msg" -ForegroundColor Green }
-function Write-Warn  { param($msg) Write-Host "⚠️  $msg" -ForegroundColor Yellow }
+function Write-Ok    { param($msg) Write-Host "[OK] $msg" -ForegroundColor Green }
+function Write-Warn  { param($msg) Write-Host "[WARN] $msg" -ForegroundColor Yellow }
 
 Clear-Host
 Write-Host ""
@@ -117,22 +117,22 @@ STARTED=$(Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ")
 # ── 7. Print results ─────────────────────────────────────────────
 Write-Host ""
 Write-Host "════════════════════════════════════════════════" -ForegroundColor Green
-Write-Host "  ✅  RenderLock Provider Agent is LIVE!         " -ForegroundColor Green
+Write-Host "  [OK] RenderLock Provider Agent is LIVE!         " -ForegroundColor Green
 Write-Host "════════════════════════════════════════════════" -ForegroundColor Green
 Write-Host ""
-Write-Host "  🌐  Tunnel URL:  " -NoNewline; Write-Host $tunnelUrl -ForegroundColor Cyan
-Write-Host "  👤  Username:    renter"
-Write-Host "  🔑  Password:    RenderLock2026!"
+Write-Host "  [i] Tunnel URL:  " -NoNewline; Write-Host $tunnelUrl -ForegroundColor Cyan
+Write-Host "  [i] Username:    renter"
+Write-Host "  [i] Password:    RenderLock2026!"
 Write-Host ""
-Write-Host "  📋  COPY THIS URL into the RenderLock listing form:" -ForegroundColor Yellow
+Write-Host "  [!] COPY THIS URL into the RenderLock listing form:" -ForegroundColor Yellow
 Write-Host "      $tunnelUrl" -ForegroundColor White
 Write-Host ""
-Write-Host "  💡  To stop:  docker stop renderlock-workspace" -ForegroundColor Gray
-Write-Host "  💡  Session:  $sessionFile" -ForegroundColor Gray
+Write-Host "  [?] To stop:  docker stop renderlock-workspace" -ForegroundColor Gray
+Write-Host "  [?] Session:  $sessionFile" -ForegroundColor Gray
 Write-Host "════════════════════════════════════════════════" -ForegroundColor Green
 Write-Host ""
 
 # Copy URL to clipboard
 $tunnelUrl | Set-Clipboard
-Write-Host "  📎  URL copied to clipboard!" -ForegroundColor Green
+Write-Host "  [*] URL copied to clipboard!" -ForegroundColor Green
 Write-Host ""
