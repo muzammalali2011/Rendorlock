@@ -16,9 +16,9 @@ import {
 const SETUP_COMMANDS = {
     windows: `# Run in PowerShell as Administrator
 Set-ExecutionPolicy Bypass -Scope Process -Force
-irm https://raw.githubusercontent.com/your-org/renderlock/main/provider-agent/start.ps1 | iex`,
+irm https://raw.githubusercontent.com/muzammalali2011/Rendorlock/refs/heads/main/provider-agent/start.ps1 | iex`,
     linux: `# Run in Terminal (Linux / macOS)
-curl -sSL https://raw.githubusercontent.com/your-org/renderlock/main/provider-agent/start.sh | bash`,
+curl -sSL https://raw.githubusercontent.com/muzammalali2011/Rendorlock/refs/heads/main/provider-agent/start.sh | bash`,
 };
 
 // ── Quick Start Guide component ──
@@ -233,264 +233,264 @@ export default function Provide() {
 
                         <div className="grid lg:grid-cols-12 gap-8">
 
-                        {/* ── LEFT: List Machine form ── */}
-                        <section className="lg:col-span-5 anim d1">
-                            <div className="card p-6 sticky top-[73px]">
+                            {/* ── LEFT: List Machine form ── */}
+                            <section className="lg:col-span-5 anim d1">
+                                <div className="card p-6 sticky top-[73px]">
 
-                                {/* Panel header */}
-                                <div className="flex items-center gap-3 mb-6 pb-5"
-                                    style={{ borderBottom: '1px solid var(--border)' }}>
-                                    <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-                                        style={{ background: 'var(--accent-light)', border: '1.5px solid var(--accent-border)' }}>
-                                        <Cpu className="w-4 h-4" style={{ color: 'var(--accent)' }} />
-                                    </div>
-                                    <div>
-                                        <h2 className="text-sm font-bold" style={{ color: 'var(--text-1)' }}>
-                                            List a Machine
-                                        </h2>
-                                        <p className="text-xs mt-0.5" style={{ color: 'var(--text-3)' }}>
-                                            Fill in your hardware specs to go live
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <form onSubmit={handleListMachine} className="space-y-3">
-
-                                    {/* GPU Model */}
-                                    <div>
-                                        <label htmlFor="gpuModel" className="label">GPU / CPU Model</label>
-                                        <input
-                                            id="gpuModel"
-                                            type="text"
-                                            placeholder="e.g., RTX 4090, H100 SXM, A100"
-                                            className="input"
-                                            value={formFields.gpuModel}
-                                            onChange={setField('gpuModel')}
-                                            required
-                                        />
-                                    </div>
-
-                                    {/* Count + VRAM */}
-                                    <div className="grid grid-cols-2 gap-3">
-                                        <div>
-                                            <label htmlFor="gpuCount" className="label">GPU Count</label>
-                                            <input
-                                                id="gpuCount" type="number" min="1" placeholder="1"
-                                                className="input" value={formFields.gpuCount}
-                                                onChange={setField('gpuCount')}
-                                            />
+                                    {/* Panel header */}
+                                    <div className="flex items-center gap-3 mb-6 pb-5"
+                                        style={{ borderBottom: '1px solid var(--border)' }}>
+                                        <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                                            style={{ background: 'var(--accent-light)', border: '1.5px solid var(--accent-border)' }}>
+                                            <Cpu className="w-4 h-4" style={{ color: 'var(--accent)' }} />
                                         </div>
                                         <div>
-                                            <label htmlFor="vram" className="label">VRAM / Card</label>
-                                            <input
-                                                id="vram" type="text" placeholder="24 GB"
-                                                className="input" value={formFields.vram}
-                                                onChange={setField('vram')}
-                                            />
+                                            <h2 className="text-sm font-bold" style={{ color: 'var(--text-1)' }}>
+                                                List a Machine
+                                            </h2>
+                                            <p className="text-xs mt-0.5" style={{ color: 'var(--text-3)' }}>
+                                                Fill in your hardware specs to go live
+                                            </p>
                                         </div>
                                     </div>
 
-                                    {/* RAM + Storage */}
-                                    <div className="grid grid-cols-2 gap-3">
+                                    <form onSubmit={handleListMachine} className="space-y-3">
+
+                                        {/* GPU Model */}
                                         <div>
-                                            <label htmlFor="ram" className="label">System RAM</label>
+                                            <label htmlFor="gpuModel" className="label">GPU / CPU Model</label>
                                             <input
-                                                id="ram" type="text" placeholder="64 GB"
-                                                className="input" value={formFields.ram}
-                                                onChange={setField('ram')}
+                                                id="gpuModel"
+                                                type="text"
+                                                placeholder="e.g., RTX 4090, H100 SXM, A100"
+                                                className="input"
+                                                value={formFields.gpuModel}
+                                                onChange={setField('gpuModel')}
+                                                required
                                             />
                                         </div>
-                                        <div>
-                                            <label htmlFor="storage" className="label">Storage</label>
-                                            <input
-                                                id="storage" type="text" placeholder="2 TB NVMe"
-                                                className="input" value={formFields.storage}
-                                                onChange={setField('storage')}
-                                            />
-                                        </div>
-                                    </div>
 
-                                    <div className="divider" />
-
-                                    {/* Tunnel URL */}
-                                    <div>
-                                        <label htmlFor="connectionUrl" className="label">Tunnel / Access URL</label>
-                                        <input
-                                            id="connectionUrl" type="url"
-                                            placeholder="https://your-cloudflare-tunnel.com"
-                                            className="input" value={formFields.connectionUrl}
-                                            onChange={setField('connectionUrl')}
-                                        />
-                                        <p className="text-xs mt-1.5" style={{ color: 'var(--text-3)' }}>
-                                            Shown to the renter after payment is confirmed
-                                        </p>
-                                    </div>
-
-                                    {/* Hourly rate */}
-                                    <div>
-                                        <label htmlFor="rateInput" className="label">Hourly Rate (AVAX)</label>
-                                        <input
-                                            id="rateInput" type="number" step="0.001" min="0.001"
-                                            placeholder="0.05"
-                                            className="input" value={hourlyRate}
-                                            onChange={(e) => setHourlyRate(e.target.value)}
-                                            required
-                                        />
-                                    </div>
-
-                                    <button
-                                        type="submit"
-                                        disabled={isWriting}
-                                        className="btn-primary w-full"
-                                        style={{ padding: '11px 20px', marginTop: 6 }}
-                                    >
-                                        {isWriting ? (
-                                            <>
-                                                <span className="w-4 h-4 border-2 rounded-full animate-spin"
-                                                    style={{ borderColor: 'rgba(255,255,255,0.3)', borderTopColor: '#fff' }} />
-                                                Listing on Fuji…
-                                            </>
-                                        ) : (
-                                            <>
-                                                <Cpu className="w-4 h-4" />
-                                                Publish Listing
-                                            </>
-                                        )}
-                                    </button>
-                                </form>
-
-                                {/* Info note */}
-                                <div className="mt-4 flex items-start gap-2.5 px-4 py-3 rounded-lg"
-                                    style={{ background: 'var(--surface-2)', border: '1px solid var(--border)' }}>
-                                    <Lock className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style={{ color: 'var(--text-3)' }} />
-                                    <p className="text-xs leading-relaxed" style={{ color: 'var(--text-3)' }}>
-                                        Your earnings are held in a trustless on-chain escrow and automatically released to you after the renter's 10-minute review period.
-                                    </p>
-                                </div>
-                            </div>
-                        </section>
-
-                        {/* ── RIGHT: My Listed Nodes ── */}
-                        <section className="lg:col-span-7 anim d2">
-                            <div className="flex items-center justify-between mb-5">
-                                <div>
-                                    <h2 className="text-base font-bold" style={{ color: 'var(--text-1)' }}>
-                                        My Listed Nodes
-                                    </h2>
-                                    <p className="text-sm mt-0.5" style={{ color: 'var(--text-3)' }}>
-                                        Manage your active listings on the network
-                                    </p>
-                                </div>
-                                {!isLoading && (
-                                    <span className={`badge ${myMachines.length > 0 ? 'badge-green' : 'badge-stone'}`}>
-                                        {myMachines.length > 0 && (
-                                            <span className="live-dot" style={{ width: 5, height: 5 }} />
-                                        )}
-                                        {myMachines.length} LISTED
-                                    </span>
-                                )}
-                            </div>
-
-                            {isLoading ? (
-                                <div className="flex flex-col items-center justify-center py-20 gap-3">
-                                    <div className="w-8 h-8 rounded-full border-2 animate-spin"
-                                        style={{ borderColor: 'var(--border)', borderTopColor: 'var(--accent)' }} />
-                                    <p className="text-sm mono" style={{ color: 'var(--text-3)' }}>Loading your nodes…</p>
-                                </div>
-
-                            ) : myMachines.length > 0 ? (
-                                <div className="flex flex-col gap-4">
-                                    {myMachines.map((machine, idx) => {
-                                        const s = parseSpecs(machine.specs);
-                                        return (
-                                            <div key={machine.id.toString()}
-                                                className={`card overflow-hidden anim d${Math.min(idx + 1, 5)}`}>
-
-                                                {/* Top row */}
-                                                <div className="px-5 pt-4 pb-4 flex items-center justify-between gap-4"
-                                                    style={{ borderBottom: '1px solid var(--border)' }}>
-                                                    <div>
-                                                        <div className="flex items-center gap-2 mb-1">
-                                                            <span className="badge badge-stone mono">
-                                                                NODE {machine.id.toString().padStart(3, '0')}
-                                                            </span>
-                                                            <span className="badge badge-green">
-                                                                <span className="live-dot" style={{ width: 5, height: 5 }} />
-                                                                LIVE
-                                                            </span>
-                                                        </div>
-                                                        <h3 className="text-base font-bold mono" style={{ color: 'var(--text-1)' }}>
-                                                            {s.gpuModel || machine.specs.split('|')[0].trim()}
-                                                        </h3>
-                                                    </div>
-
-                                                    <div className="text-right flex-shrink-0">
-                                                        <p className="text-xs" style={{ color: 'var(--text-3)' }}>Hourly Rate</p>
-                                                        <div className="flex items-baseline gap-1 justify-end">
-                                                            <span className="text-lg font-bold mono" style={{ color: 'var(--accent)' }}>
-                                                                {formatEther(machine.hourlyRate)}
-                                                            </span>
-                                                            <span className="text-xs" style={{ color: 'var(--text-3)' }}>AVAX</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                {/* Spec row */}
-                                                <div className="px-5 py-3 flex items-center gap-6"
-                                                    style={{ background: 'var(--surface-2)', borderBottom: '1px solid var(--border)' }}>
-                                                    {[
-                                                        { icon: Hash, label: 'Count', value: s.gpuCount ? `${s.gpuCount}x` : '—' },
-                                                        { icon: MonitorDot, label: 'VRAM', value: s.vram || '—' },
-                                                        { icon: Database, label: 'RAM', value: s.ram || '—' },
-                                                        { icon: HardDrive, label: 'Storage', value: s.storage || '—' },
-                                                    ].map(({ icon: Icon, label, value }) => (
-                                                        <div key={label}>
-                                                            <div className="flex items-center gap-1">
-                                                                <Icon className="w-3 h-3" style={{ color: 'var(--text-3)' }} />
-                                                                <span className="text-xs" style={{ color: 'var(--text-3)' }}>{label}</span>
-                                                            </div>
-                                                            <span className="text-sm font-semibold mono" style={{ color: 'var(--text-1)' }}>
-                                                                {value}
-                                                            </span>
-                                                        </div>
-                                                    ))}
-                                                </div>
-
-                                                {/* Actions */}
-                                                <div className="px-5 py-3.5 flex justify-between items-center">
-                                                    <p className="text-xs mono truncate max-w-[180px]"
-                                                        title={machine.provider}
-                                                        style={{ color: 'var(--text-3)' }}>
-                                                        {machine.provider.slice(0, 6)}…{machine.provider.slice(-4)}
-                                                    </p>
-                                                    <button
-                                                        onClick={() => handleAction('unlistMachine', [machine.id])}
-                                                        disabled={isWriting}
-                                                        className="btn-danger-outline"
-                                                        style={{ padding: '6px 14px', fontSize: '0.8125rem' }}
-                                                    >
-                                                        <Trash2 className="w-3.5 h-3.5" />
-                                                        Remove Listing
-                                                    </button>
-                                                </div>
+                                        {/* Count + VRAM */}
+                                        <div className="grid grid-cols-2 gap-3">
+                                            <div>
+                                                <label htmlFor="gpuCount" className="label">GPU Count</label>
+                                                <input
+                                                    id="gpuCount" type="number" min="1" placeholder="1"
+                                                    className="input" value={formFields.gpuCount}
+                                                    onChange={setField('gpuCount')}
+                                                />
                                             </div>
-                                        );
-                                    })}
+                                            <div>
+                                                <label htmlFor="vram" className="label">VRAM / Card</label>
+                                                <input
+                                                    id="vram" type="text" placeholder="24 GB"
+                                                    className="input" value={formFields.vram}
+                                                    onChange={setField('vram')}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* RAM + Storage */}
+                                        <div className="grid grid-cols-2 gap-3">
+                                            <div>
+                                                <label htmlFor="ram" className="label">System RAM</label>
+                                                <input
+                                                    id="ram" type="text" placeholder="64 GB"
+                                                    className="input" value={formFields.ram}
+                                                    onChange={setField('ram')}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label htmlFor="storage" className="label">Storage</label>
+                                                <input
+                                                    id="storage" type="text" placeholder="2 TB NVMe"
+                                                    className="input" value={formFields.storage}
+                                                    onChange={setField('storage')}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="divider" />
+
+                                        {/* Tunnel URL */}
+                                        <div>
+                                            <label htmlFor="connectionUrl" className="label">Tunnel / Access URL</label>
+                                            <input
+                                                id="connectionUrl" type="url"
+                                                placeholder="https://your-cloudflare-tunnel.com"
+                                                className="input" value={formFields.connectionUrl}
+                                                onChange={setField('connectionUrl')}
+                                            />
+                                            <p className="text-xs mt-1.5" style={{ color: 'var(--text-3)' }}>
+                                                Shown to the renter after payment is confirmed
+                                            </p>
+                                        </div>
+
+                                        {/* Hourly rate */}
+                                        <div>
+                                            <label htmlFor="rateInput" className="label">Hourly Rate (AVAX)</label>
+                                            <input
+                                                id="rateInput" type="number" step="0.001" min="0.001"
+                                                placeholder="0.05"
+                                                className="input" value={hourlyRate}
+                                                onChange={(e) => setHourlyRate(e.target.value)}
+                                                required
+                                            />
+                                        </div>
+
+                                        <button
+                                            type="submit"
+                                            disabled={isWriting}
+                                            className="btn-primary w-full"
+                                            style={{ padding: '11px 20px', marginTop: 6 }}
+                                        >
+                                            {isWriting ? (
+                                                <>
+                                                    <span className="w-4 h-4 border-2 rounded-full animate-spin"
+                                                        style={{ borderColor: 'rgba(255,255,255,0.3)', borderTopColor: '#fff' }} />
+                                                    Listing on Fuji…
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <Cpu className="w-4 h-4" />
+                                                    Publish Listing
+                                                </>
+                                            )}
+                                        </button>
+                                    </form>
+
+                                    {/* Info note */}
+                                    <div className="mt-4 flex items-start gap-2.5 px-4 py-3 rounded-lg"
+                                        style={{ background: 'var(--surface-2)', border: '1px solid var(--border)' }}>
+                                        <Lock className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style={{ color: 'var(--text-3)' }} />
+                                        <p className="text-xs leading-relaxed" style={{ color: 'var(--text-3)' }}>
+                                            Your earnings are held in a trustless on-chain escrow and automatically released to you after the renter's 10-minute review period.
+                                        </p>
+                                    </div>
+                                </div>
+                            </section>
+
+                            {/* ── RIGHT: My Listed Nodes ── */}
+                            <section className="lg:col-span-7 anim d2">
+                                <div className="flex items-center justify-between mb-5">
+                                    <div>
+                                        <h2 className="text-base font-bold" style={{ color: 'var(--text-1)' }}>
+                                            My Listed Nodes
+                                        </h2>
+                                        <p className="text-sm mt-0.5" style={{ color: 'var(--text-3)' }}>
+                                            Manage your active listings on the network
+                                        </p>
+                                    </div>
+                                    {!isLoading && (
+                                        <span className={`badge ${myMachines.length > 0 ? 'badge-green' : 'badge-stone'}`}>
+                                            {myMachines.length > 0 && (
+                                                <span className="live-dot" style={{ width: 5, height: 5 }} />
+                                            )}
+                                            {myMachines.length} LISTED
+                                        </span>
+                                    )}
                                 </div>
 
-                            ) : (
-                                <div className="flex flex-col items-center justify-center py-20 rounded-xl text-center"
-                                    style={{ border: '1.5px dashed var(--border-strong)', background: 'var(--surface)' }}>
-                                    <Server className="w-10 h-10 mb-3" style={{ color: 'var(--text-3)' }} />
-                                    <p className="text-sm font-medium" style={{ color: 'var(--text-2)' }}>
-                                        You have no active listings.
-                                    </p>
-                                    <p className="text-xs mt-1" style={{ color: 'var(--text-3)' }}>
-                                        Fill in the form to publish your first node.
-                                    </p>
-                                </div>
-                            )}
-                        </section>
+                                {isLoading ? (
+                                    <div className="flex flex-col items-center justify-center py-20 gap-3">
+                                        <div className="w-8 h-8 rounded-full border-2 animate-spin"
+                                            style={{ borderColor: 'var(--border)', borderTopColor: 'var(--accent)' }} />
+                                        <p className="text-sm mono" style={{ color: 'var(--text-3)' }}>Loading your nodes…</p>
+                                    </div>
+
+                                ) : myMachines.length > 0 ? (
+                                    <div className="flex flex-col gap-4">
+                                        {myMachines.map((machine, idx) => {
+                                            const s = parseSpecs(machine.specs);
+                                            return (
+                                                <div key={machine.id.toString()}
+                                                    className={`card overflow-hidden anim d${Math.min(idx + 1, 5)}`}>
+
+                                                    {/* Top row */}
+                                                    <div className="px-5 pt-4 pb-4 flex items-center justify-between gap-4"
+                                                        style={{ borderBottom: '1px solid var(--border)' }}>
+                                                        <div>
+                                                            <div className="flex items-center gap-2 mb-1">
+                                                                <span className="badge badge-stone mono">
+                                                                    NODE {machine.id.toString().padStart(3, '0')}
+                                                                </span>
+                                                                <span className="badge badge-green">
+                                                                    <span className="live-dot" style={{ width: 5, height: 5 }} />
+                                                                    LIVE
+                                                                </span>
+                                                            </div>
+                                                            <h3 className="text-base font-bold mono" style={{ color: 'var(--text-1)' }}>
+                                                                {s.gpuModel || machine.specs.split('|')[0].trim()}
+                                                            </h3>
+                                                        </div>
+
+                                                        <div className="text-right flex-shrink-0">
+                                                            <p className="text-xs" style={{ color: 'var(--text-3)' }}>Hourly Rate</p>
+                                                            <div className="flex items-baseline gap-1 justify-end">
+                                                                <span className="text-lg font-bold mono" style={{ color: 'var(--accent)' }}>
+                                                                    {formatEther(machine.hourlyRate)}
+                                                                </span>
+                                                                <span className="text-xs" style={{ color: 'var(--text-3)' }}>AVAX</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Spec row */}
+                                                    <div className="px-5 py-3 flex items-center gap-6"
+                                                        style={{ background: 'var(--surface-2)', borderBottom: '1px solid var(--border)' }}>
+                                                        {[
+                                                            { icon: Hash, label: 'Count', value: s.gpuCount ? `${s.gpuCount}x` : '—' },
+                                                            { icon: MonitorDot, label: 'VRAM', value: s.vram || '—' },
+                                                            { icon: Database, label: 'RAM', value: s.ram || '—' },
+                                                            { icon: HardDrive, label: 'Storage', value: s.storage || '—' },
+                                                        ].map(({ icon: Icon, label, value }) => (
+                                                            <div key={label}>
+                                                                <div className="flex items-center gap-1">
+                                                                    <Icon className="w-3 h-3" style={{ color: 'var(--text-3)' }} />
+                                                                    <span className="text-xs" style={{ color: 'var(--text-3)' }}>{label}</span>
+                                                                </div>
+                                                                <span className="text-sm font-semibold mono" style={{ color: 'var(--text-1)' }}>
+                                                                    {value}
+                                                                </span>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+
+                                                    {/* Actions */}
+                                                    <div className="px-5 py-3.5 flex justify-between items-center">
+                                                        <p className="text-xs mono truncate max-w-[180px]"
+                                                            title={machine.provider}
+                                                            style={{ color: 'var(--text-3)' }}>
+                                                            {machine.provider.slice(0, 6)}…{machine.provider.slice(-4)}
+                                                        </p>
+                                                        <button
+                                                            onClick={() => handleAction('unlistMachine', [machine.id])}
+                                                            disabled={isWriting}
+                                                            className="btn-danger-outline"
+                                                            style={{ padding: '6px 14px', fontSize: '0.8125rem' }}
+                                                        >
+                                                            <Trash2 className="w-3.5 h-3.5" />
+                                                            Remove Listing
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+
+                                ) : (
+                                    <div className="flex flex-col items-center justify-center py-20 rounded-xl text-center"
+                                        style={{ border: '1.5px dashed var(--border-strong)', background: 'var(--surface)' }}>
+                                        <Server className="w-10 h-10 mb-3" style={{ color: 'var(--text-3)' }} />
+                                        <p className="text-sm font-medium" style={{ color: 'var(--text-2)' }}>
+                                            You have no active listings.
+                                        </p>
+                                        <p className="text-xs mt-1" style={{ color: 'var(--text-3)' }}>
+                                            Fill in the form to publish your first node.
+                                        </p>
+                                    </div>
+                                )}
+                            </section>
                         </div>
                     </div>
                 )}
