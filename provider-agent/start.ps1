@@ -46,8 +46,8 @@ if (-Not (Test-Path $cfPath)) {
 
 # ── 3. Stop existing containers ──────────────────────────────────
 Write-Step "Cleaning up previous sessions..."
-docker stop renderlock-workspace 2>&1 | Out-Null
-docker rm   renderlock-workspace 2>&1 | Out-Null
+try { docker stop renderlock-workspace 2>&1 | Out-Null } catch { }
+try { docker rm   renderlock-workspace 2>&1 | Out-Null } catch { }
 # Kill old tunnel processes
 Get-Process -Name "cloudflared" -ErrorAction SilentlyContinue | Stop-Process -Force
 Write-Ok "Clean slate ready"
