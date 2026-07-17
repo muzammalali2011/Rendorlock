@@ -1,29 +1,21 @@
 FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
-# ── System tools + ttyd (web terminal) ──
-RUN apt-get update && apt-get install -y \
-    ttyd sudo curl wget git vim nano htop \
-    python3 python3-pip build-essential unzip \
-    && rm -rf /var/lib/apt/lists/*
+# Install dependencies
+RUN apt-get update && apt-get install -y curl wget sudo
 
-# ── Create renter user ──
-RUN useradd -m -s /bin/bash renter && \
-    echo 'renter:RenderLock2026!' | chpasswd && \
-    echo 'renter ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+# Install Web Terminal (ttyd 1.7.3 - proven working version)
+RUN wget -qO /usr/local/bin/ttyd \
+    https://github.com/tsl0922/ttyd/releases/download/1.7.3/ttyd.x86_64 \
+    && chmod +x /usr/local/bin/ttyd
 
-# ── Welcome banner ──
-RUN echo 'echo ""' >> /home/renter/.bashrc && \
-    echo 'echo "╔══════════════════════════════════════╗"' >> /home/renter/.bashrc && \
-    echo 'echo "║  RenderLock Cloud Workspace          ║"' >> /home/renter/.bashrc && \
-    echo 'echo "║  Powered by Avalanche DePIN          ║"' >> /home/renter/.bashrc && \
-    echo 'echo "╚══════════════════════════════════════╝"' >> /home/renter/.bashrc && \
-    echo 'echo ""' >> /home/renter/.bashrc
+# Create a secure renter profile
+RUN useradd -m -s /bin/bash renter \
+    && echo 'renter:RenderLock2026!' | chpasswd \
+    && adduser renter sudo
 
-WORKDIR /home/renter
-USER renter
+# Copy startup script (COPY avoids echo \n corruption bug)
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
-# ttyd serves a web terminal on port 7681
-# --credential adds HTTP basic auth (user: renter, pass: RenderLock2026!)
-EXPOSE 7681
-CMD ["ttyd", "--port", "7681", "--credential", "renter:RenderLock2026!", "--title", "RenderLock Workspace", "bash"]
+CMD ["/start.sh"]
