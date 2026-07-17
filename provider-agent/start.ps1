@@ -60,7 +60,7 @@ if (-Not (Test-Path $cfPath)) {
 Write-Step "Cleaning up previous sessions..."
 docker stop renderlock-workspace 2>&1 | Out-Null
 docker rm   renderlock-workspace 2>&1 | Out-Null
-try { Get-Process -Name "cloudflared" -ErrorAction SilentlyContinue | Stop-Process -Force } catch { }
+& taskkill /F /IM cloudflared.exe 2>&1 | Out-Null
 Write-Ok "Clean slate ready"
 
 # ── 4. Download Dockerfile + start.sh from GitHub ─────────────────
