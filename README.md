@@ -32,6 +32,12 @@ RenderLock is a Web3-powered platform where anyone can rent out their unused com
 
 ---
 
+## 🗺️ Workflow Diagram
+
+![RenderLock Workflow](docs/renderlock-workflow.png)
+
+---
+
 ## 🖥️ How to Use: For Renters
 
 1. Visit the live platform: [RenderLock](https://rendorlock.vercel.app).
